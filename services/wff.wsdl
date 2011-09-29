@@ -1,0 +1,135 @@
+<definitions
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:tns=""
+	targetNamespace=""
+	>
+	<wsdl:types>
+		<schema targetNamespace="" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+			<complexType name="StringArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+					</restriction>
+				</complexContent>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<!-- message block begins -->
+	<message name="addRequest">
+		<part name="a" type="s:int"/>
+		<part name="b" type="s:int"/>
+	</message>
+	<message name="addResponse">
+		<part name="return" type="s:long"/>
+	</message>
+	<message name="GetFactoryVersionRequest">
+	</message>
+	<message name="GetFactoryVersionResponse">
+		<part name="return" type="xsd:string"/>
+	</message>
+	<message name="GenerateFormRequest">
+		<part name="link" type="xsd:string"/>
+		<part name="template" type="xsd:string"/>
+		<part name="sink" type="xsd:string"/>
+	</message>
+	<message name="GenerateFormResponse">
+		<part name="return" type="xsd:string"/>
+	</message>
+	<message name="GeneratePackageRequest">
+		<part name="formName" type="xsd:string"/>
+		<part name="html" type="xsd:string"/>
+		<part name="language" type="xsd:string"/>
+		<part name="pdoDriver" type="xsd:string"/>
+		<part name="sink" type="xsd:string"/>
+		<part name="thankyou_html" type="xsd:string"/>
+	</message>
+	<message name="GeneratePackageResponse">
+		<part name="return" type="xsd:string"/>
+	</message>
+	<!-- port block begins -->
+	<portType name="WffServiceServiceSoap">
+
+		<!-- operation block begins -->;
+		<operation name="add">
+			<input message="tns:addRequest"/>
+			<output message="tns:addResponse"/>
+		</operation>
+		<operation name="GetFactoryVersion">
+			<documentation>
+				Fetches the current WFF version. Can be used to detect for upgrades.
+			</documentation>
+			<input message="tns:GetFactoryVersionRequest"/>
+			<output message="tns:GetFactoryVersionResponse"/>
+		</operation>
+		<operation name="GenerateForm">
+			<documentation>Generate Form from POG @link</documentation>
+			<input message="tns:GenerateFormRequest"/>
+			<output message="tns:GenerateFormResponse"/>
+		</operation>
+		<operation name="GeneratePackage">
+			<documentation>
+				Generates WFF package from html
+			</documentation>
+			<input message="tns:GeneratePackageRequest"/>
+			<output message="tns:GeneratePackageResponse"/>
+		</operation>
+	</portType>
+
+	<!-- binding block begins -->
+	<binding name="WffServiceServiceSoap" type="tns:WffServiceServiceSoap">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+		<!-- operation block begins -->
+		<operation name="add">
+			<soap:operation soapAction="urn:add"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+		<operation name="GetFactoryVersion">
+			<soap:operation soapAction="urn:xmethods#GetFactoryVersion" style="rpc"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+		<operation name="GenerateForm">
+			<soap:operation soapAction="urn:xmethods#GenerateForm" style="rpc"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+		<operation name="GeneratePackage">
+			<soap:operation soapAction="urn:xmethods#GeneratePackage" style="rpc"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+	</binding>
+
+	<!-- service block begins -->
+	<service name="WffService">
+		<port name="WffServiceService" binding="tns:WffServiceServiceSoap">
+			<soap:address location="http://www.webformfactory.com/services/soap_php5.php"/>
+		</port>
+	</service>
+</definitions>

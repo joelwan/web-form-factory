@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tags>
+	<tag shortName="validation_errors">
+		<description>
+			This tag indicates to WFF where to display form validation errors. Within your original HTML form, simply place this tag where
+			you'd like error messages to appear. Common areas where this tag is usually placed are: Top of the form or just below the submit button.
+		</description>
+		<php>
+			<![CDATA[
+			<?php
+				if (isset($errors) && sizeof($errors) > 0)
+				{
+					foreach ($errors as $error)
+					{
+						echo  $error."<br/>";
+					}
+				}
+			?>
+			]]>
+		</php>
+		<example>
+			All mandatory fields have not been filled.
+		</example>
+		<replacement>post</replacement>
+		<required>yes</required>
+	</tag>
+</tags>
